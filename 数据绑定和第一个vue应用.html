@@ -11,7 +11,9 @@
     <div id="app">
         <input type="text" v-model="name" placeholder="你的名字">
         <h1>hello,{{name}}</h1>
-        <h1>现在时间: {{ nowdate | formatDate }}</h1>
+        <h1>现在时间: {{ nowdate | formatDate }}</h1> 
+        <h1>多参数过滤的实例:{{color|select('red','green')}}</h1>
+        <h1>参数串联的用法{{cl | selectA | selectB }}</h1>
         <span v-html="link"></span>
         <br>
         <span v-pre>这里的内容不被编译<br>这里的内容不被编译<br>这里的内容不被编译<br>这里的内容不被编译<br>这里的内容不被编译<br></span>
@@ -36,13 +38,16 @@
                 link:'<a href="#">this is a link</a>',
                 number:14,
                 isok:false,
-                text:'123,456'
+                text:'123,456',
+                color:['red','green','black'],
+                cl:[1,2,3,4,5,30,40,-200]
             },
             //实例创建完成后调用，完成了数据的观测，但还未挂载，$el还不能用，需要初始化处理一些数据时会比较有用。
             created:function(){  
                 
                 console.log(this.name);
             },
+            //过滤器的使用。主要有串联和多参数的使用
             filters:{
                 formatDate:function(value){
                     var date = new Date(value);
@@ -53,8 +58,36 @@
                     var minutes=padate(date.getMinutes());
                     var seconds=padate(date.getSeconds());
                     return year+'-'+month+'-'+day+' '+hours+':'+minutes+':'+seconds;
-                }
+                },
+                select:function(value,red,green){
+                    var newarr=''
+                    for (var i =0;i<value.length;i++){
+                        if (value[i]===red||value[i]===green){
+                             newarr+=','+value[i]
+                        }
+                    }
+                    return newarr;
+                },
+                selectA:function(value){
+                    var newstr = [];
+                    for (var i=0;i<value.length;i++){
+                        if (value[i]>3){
+                            newstr.push(value[i]);
+                        }
+                    }
+                    return newstr;
+                },
+                selectB:function(value){
+                    var newstr = [];
+                    for (var i=0;i<value.length;i++){
+                        if (value[i]>20){
+                            newstr.push(value[i]);
+                        }
+                    }
+                    return newstr;
+                },
             },
+
             //el挂载到实例上后调用，一般业务逻辑在这里
             mounted:function(){
                 console.log(this.$el);
