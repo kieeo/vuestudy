@@ -14,6 +14,7 @@
         <h1>现在时间: {{ nowdate | formatDate }}</h1> 
         <h1>多参数过滤的实例:{{color|select('red','green')}}</h1>
         <h1>参数串联的用法{{cl | selectA | selectB }}</h1>
+        <br>
         <span v-html="link"></span>
         <br>
         <span v-pre>这里的内容不被编译<br>这里的内容不被编译<br>这里的内容不被编译<br>这里的内容不被编译<br>这里的内容不被编译<br></span>
